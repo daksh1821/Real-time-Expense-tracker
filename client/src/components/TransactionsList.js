@@ -8,63 +8,81 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import Container from '@mui/material/Container';
+import dayjs from 'dayjs';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-export default function TransactionsList({transactions, fetchTransaction}) {
-  async function remove(_id){
-    if(!window.confirm("Are you sure")) return;
-    const res = await fetch(`http://localhost:4000/transactions/${_id}`,{
+export default function TransactionsList({
+  transactions,
+  fetchTransaction,
+  setEditTransaction,
+  showSnackbar,
+}) {
+  async function remove(_id) {
+    if (!window.confirm("Are you sure?")) return;
+
+    const res = await fetch(`http://localhost:4000/transactions/${_id}`, {
       method: "DELETE",
       headers: {
-        "Content-Type": "application/json"
-      }
+        "Content-Type": "application/json",
+      },
     });
-    if(res.ok){
+
+    if (res.ok) {
       fetchTransaction();
-      window.alert("Deleted Successfully");
+      showSnackbar("Transaction deleted successfully", "success"); // ✅ Snackbar instead of alert
+    } else {
+      showSnackbar("Failed to delete transaction", "error");
     }
   }
+
+  function formatDate(date) {
+    return dayjs(date).format("DD MMM, YYYY");
+  }
+
   return (
     <>
-    <Typography sx={{marginTop: 10}} variant="h6">
-      List of Transaction
-    </Typography>
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell>Amount</TableCell>
-            <TableCell align="center">Description</TableCell>
-            <TableCell align="center">date</TableCell>
-            <TableCell align="center">Action</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {transactions.map((row) => (
-            <TableRow
-              key={row._id}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-              <TableCell component="th" scope="row">
-                {row.amount}
-              </TableCell>
-              <TableCell align="center">{row.description}</TableCell>
-              <TableCell align="center">{row.date}</TableCell>
-              <TableCell align="center">
-                <IconButton color='primary' component="label">
-                <EditIcon/>
-                </IconButton>
-                <IconButton color='warning' component="label" onClick={()=> remove(row._id)}>
-                <DeleteIcon/>
-                </IconButton>
-              </TableCell>
+      <Typography sx={{ marginTop: 10 }} variant="h6">
+        List of Transactions
+      </Typography>
+      <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 650 }} aria-label="transactions table">
+          <TableHead>
+            <TableRow>
+              <TableCell>Amount</TableCell>
+              <TableCell align="center">Description</TableCell>
+              <TableCell align="center">Date</TableCell>
+              <TableCell align="center">Actions</TableCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+          </TableHead>
+          <TableBody>
+            {transactions.map((row) => (
+              <TableRow
+                key={row._id}
+                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+              >
+                <TableCell>{row.amount}</TableCell>
+                <TableCell align="center">{row.description}</TableCell>
+                <TableCell align="center">{formatDate(row.date)}</TableCell>
+                <TableCell align="center">
+                  <IconButton
+                    color="primary"
+                    onClick={() => setEditTransaction(row)}
+                  >
+                    <EditIcon />
+                  </IconButton>
+                  <IconButton
+                    color="warning"
+                    onClick={() => remove(row._id)}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </>
   );
 }

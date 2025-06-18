@@ -1,3 +1,7 @@
 body{
   background-color: #eeeeee;
 }
+.text-white{
+  color: white;
+  text-decoration: none;
+}
