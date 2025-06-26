@@ -2,7 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
-import Transaction from './models/transaction.js';
+import Transaction from './models/Transaction.js';
 import Transactionapis from "./routes/Transactionapi.js";
 import connect from "./database/mongodb.js";
 import AuthApi from "./routes/AuthApi.js"
