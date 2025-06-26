@@ -22,9 +22,16 @@ app.get('/', (req, res) => {
     }
 );
 app.use('/',routes);
-await connect();
 const PORT = process.env.PORT || 4000;
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+(async () => {
+    try {
+      await connect();
+      app.listen(PORT, () => {
+        console.log(`Server is running on port ${PORT}`);
+      });
+    } catch (err) {
+      console.error("Failed to connect to DB", err);
+      process.exit(1);
     }
-);
+  })();
+  

@@ -1,7 +1,7 @@
 import {Router} from 'express';
 import passport from 'passport';
 const router = Router();
-import Transaction from '../models/transaction.js';
+import Transaction from '../models/Transaction.js';
 import * as TransactionController from '../controller/TransactionController.js'
 
 router.get("/", 
