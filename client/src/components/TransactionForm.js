@@ -8,15 +8,18 @@ import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
+import Cookies from 'js-cookie';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+import { useSelector } from 'react-redux';
 
 export default function TransactionForm({ fetchTransaction, editTransaction, setEditTransaction }) {
+  const token = Cookies.get('token');
   const initialform = {
     amount: '',
     description: '',
-    date: dayjs()
+    date: dayjs(),
   };
 
   const [form, setForm] = useState(initialform);
@@ -51,8 +54,8 @@ export default function TransactionForm({ fetchTransaction, editTransaction, set
 
     const isEdit = Object.keys(editTransaction || {}).length !== 0;
     const url = isEdit
-      ? `http://localhost:4000/transactions/${editTransaction._id}`
-      : "http://localhost:4000/transactions";
+      ? `${process.env.REACT_APP_API_URL}/transactions/${editTransaction._id}`
+      : `${process.env.REACT_APP_API_URL}/transactions`;
     const method = isEdit ? "PATCH" : "POST";
 
     const res = await fetch(url, {
@@ -62,7 +65,8 @@ export default function TransactionForm({ fetchTransaction, editTransaction, set
         date: form.date.format("YYYY-MM-DD")
       }),
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+         Authorization : `Bearer ${token}`,
       }
     });
 
@@ -91,7 +95,6 @@ export default function TransactionForm({ fetchTransaction, editTransaction, set
   };
 
   const isEdit = Object.keys(editTransaction || {}).length !== 0;
-
   return (
     <Card sx={{ minWidth: 275, marginTop: 10 }}>
       <CardContent>
@@ -134,7 +137,7 @@ export default function TransactionForm({ fetchTransaction, editTransaction, set
             />
           </LocalizationProvider>
 
-          <Button type="submit" sx={{ marginLeft: 4, marginRight:4 }} variant="contained">
+          <Button type="submit" sx={{ marginLeft: 4, marginRight:4, marginTop:5}} variant="contained">
             {isEdit ? "Update" : "Submit"}
           </Button>
 

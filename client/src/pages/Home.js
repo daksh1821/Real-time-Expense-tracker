@@ -5,6 +5,8 @@ import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import TransactionForm from '../components/TransactionForm';
 import TransactionsList from '../components/TransactionsList';
+import Cookies from 'js-cookie';
+import TransactionChart from '../components/TransactionChart';
 export default function Home() {
     const [transaction, setTransaction] = useState([]);
     const [editTransaction, setEditTransaction] = useState({});
@@ -14,23 +16,41 @@ export default function Home() {
       }, []);
 
       async function fetchTransaction() {
-        const res = await fetch("http://localhost:4000/transactions");
+        const token = Cookies.get("token");
+        console.log("token being sent:", token); 
+        const res = await fetch(`${process.env.REACT_APP_API_URL}/transactions`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+      
+        if (!res.ok) {
+          try {
+            const text = await res.text();
+            showSnackbar(text || "Unauthorized", "error");
+          } catch (e) {
+            showSnackbar("Error fetching transactions", "error");
+          }
+          return;
+        }
+      
         const { data } = await res.json();
         setTransaction(data);
       }
-    
+      
       const showSnackbar = (message, severity = 'success') => {
         setSnackbar({ open: true, message, severity });
       };
-      
+
   return <Container>
+    <TransactionChart data={transaction}/>
   <TransactionForm
     fetchTransaction={fetchTransaction}
     editTransaction={editTransaction}
     setEditTransaction={setEditTransaction}
   />
   <TransactionsList
-    transactions={transaction}
+    data={transaction}
     fetchTransaction={fetchTransaction}
     setEditTransaction={setEditTransaction}
     showSnackbar={showSnackbar}

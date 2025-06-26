@@ -1,6 +1,12 @@
 import mongoose from "mongoose";
-async function connect(){
-    await mongoose.connect("mongodb+srv://daksh2872004:yMxhMcc7YenfnGHW@mern.35l4jl6.mongodb.net/?retryWrites=true&w=majority&appName=mern");
-    console.log("Mongo db Connected");
+import * as dotenv from "dotenv";
+dotenv.config();
+async function connect() {
+  const username = process.env.MONGO_DB_USERNAME;
+  const password = process.env.MONGO_DB_PASSWORD;
+  const url = process.env.MONGO_DB_URL;
+  const fullUrl = `mongodb+srv://${username}:${password}@${url}/?retryWrites=true&w=majority&appName=mern`;
+  await mongoose.connect(fullUrl);
+  console.log("✅ MongoDB Connected");
 }
 export default connect;
