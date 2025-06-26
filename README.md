@@ -44,26 +44,31 @@ A full-stack real-time expense tracker built with the MERN stack (MongoDB, Expre
 ```bash
 git clone https://github.com/daksh1821/Real-time-Expense-tracker.git
 cd Real-time-Expense-tracker
-
+```
 
 2.Setup Backend
+```
 cd server
 npm install
-
+```
 Create .env file in server/:
+```
 JWT_SECRET=your_jwt_secret
 MONGO_DB_USERNAME=your_username
 MONGO_DB_PASSWORD=your_password
 MONGO_DB_URL=cluster.mongodb.net
-
+```
 
 Update your MongoDB URI in database/mongodb.js:
+```
 const uri = `mongodb+srv://${process.env.MONGO_DB_USERNAME}:${process.env.MONGO_DB_PASSWORD}@${process.env.MONGO_DB_URL}/?retryWrites=true&w=majority`;
-
+```
 Start Backend
+```
 nodemon server.js
-
+```
 3. Setup Frontend
+```
 cd ../client
 npm install
 npm start
