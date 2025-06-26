@@ -1,113 +1,97 @@
-# 💸 Real-Time Expense Tracker
+# 💰 Real-time Expense Tracker (MERN)
 
-A sleek and responsive web application built with the MERN stack that allows users to track their expenses in real time. It features CRUD operations, interactive visualizations, and a modern UI powered by Material UI.
+A full-stack real-time expense tracker built with the MERN stack (MongoDB, Express, React, Node.js). The app features JWT-based authentication, dynamic charts, monthly summaries, and full CRUD operations for managing your transactions.
 
----
+## 🚀 Live Demo
 
-## 🚀 Features
-
-- 🔐 Secure login system (future scope)
-- 📋 Add, edit, and delete transactions
-- 📅 Choose transaction dates with a date picker
-- 🧾 View all transactions in a dynamic table
-- 📊 **Real-time expense graph visualization**
-- ✅ Snackbar notifications for actions (submit, update, delete)
-- 🌐 Responsive UI with Material UI components
-- ⚙️ Backend API with Node.js, Express, and MongoDB
+- 🌐 **Frontend**: [https://expense-tracker-frontend-<your-app>.onrender.com](https://expense-tracker-frontend-<your-app>.onrender.com)
+- ⚙️ **Backend API**: [https://expense-tracker-backend-<your-api>.onrender.com](https://expense-tracker-backend-<your-api>.onrender.com)
 
 ---
 
-## 📈 Real-Time Graph
+## 📌 Features
 
-Visualize your spending trends dynamically. As you add or delete transactions, the graph updates instantly to reflect the latest totals and trends over time.
-
-- Weekly/Monthly breakdowns
-- Total vs category-based views (if implemented)
-- Built using charting libraries like **Recharts** or **Chart.js**
-
-![Graph Screenshot](./assets/graph.png)
+- 🔐 JWT authentication with Passport.js (Login/Register)
+- 🧾 Add, edit, delete, and view transactions
+- 📊 Interactive charts with total expenses
+- 📆 Monthly grouping using MongoDB Aggregation
+- 📱 Responsive UI built with Material-UI (MUI)
+- 🔁 Real-time state updates using Redux
+- 🌈 Clean and user-friendly design
 
 ---
 
-## 🛠 Tech Stack
+## 🏗️ Tech Stack
 
-**Frontend:**
+### 🔹 Frontend
 - React.js
-- Material UI (MUI)
-- Day.js
-- React Router DOM
-- **Recharts** or **Chart.js** (for graphs)
+- Redux Toolkit
+- React Router
+- Material UI
 
-**Backend:**
+### 🔹 Backend
 - Node.js
 - Express.js
-- MongoDB Atlas (via Mongoose)
+- MongoDB (via Mongoose)
+- Passport.js + JWT
 
 ---
 
+## 🔧 Installation
 
----
+### 1. Clone the repo
 
-## 🧑‍💻 Getting Started
+```bash
+git clone https://github.com/daksh1821/Real-time-Expense-tracker.git
+cd Real-time-Expense-tracker
 
-### Prerequisites
-- Node.js
-- MongoDB (Atlas or local)
 
-### Installation
-
-1. **Clone the repo:**
-   ```bash
-   git clone https://github.com/daksh1821/Real-time-Expense-tracker.git
-   cd real-time-expense-tracker
-Install client dependencies:
-cd client
+2.Setup Backend
+cd server
 npm install
 
-Install server dependencies:
-cd ../server
-npm install
+Create .env file in server/:
+JWT_SECRET=your_jwt_secret
+MONGO_DB_USERNAME=your_username
+MONGO_DB_PASSWORD=your_password
+MONGO_DB_URL=cluster.mongodb.net
 
-Setup environment variables:
 
-Create a .env file in the server/ folder
-MONGO_URI=your_mongodb_connection_string
-PORT=4000
+Update your MongoDB URI in database/mongodb.js:
+const uri = `mongodb+srv://${process.env.MONGO_DB_USERNAME}:${process.env.MONGO_DB_PASSWORD}@${process.env.MONGO_DB_URL}/?retryWrites=true&w=majority`;
 
-Start the backend:
+Start Backend
 nodemon server.js
 
-Start the Frontend:
+3. Setup Frontend
+cd ../client
+npm install
 npm start
+```
 
-| Method | Endpoint            | Description           |
-| ------ | ------------------- | --------------------- |
-| GET    | `/transactions`     | Get all transactions  |
-| POST   | `/transactions`     | Add a new transaction |
-| PATCH  | `/transactions/:id` | Update a transaction  |
-| DELETE | `/transactions/:id` | Delete a transaction  |
+🌐 Deployment
+✅ Backend: Render (Node service)
+Set Build Command: npm install
 
+Set Start Command: node server.js
 
-📦 Future Improvements
-Google OAuth / JWT Authentication
+Add environment variables from .env
 
-Monthly/yearly analytics & charts
+✅ Frontend: Render (Static site)
+Set Build Command: npm run build
 
-Export data to CSV or PDF
+Set Publish directory: client/build
 
-Dark mode toggle
+Add a rewrite rule:
+Source: /*
+Type: Rewrite
+Destination: /index.html
 
-Transaction categories and filters
-
-📄 License
-This project is open source and available under the MIT License.
-
-🙌 Contributing
-Contributions are welcome! Please open an issue or submit a pull request for improvements or bug fixes.
-
-💻 Author
+✍️ Author
 Daksh Jain
-https://www.linkedin.com/in/daksh-jain-5620b5251/
+@daksh1821
+
+
 
 
 
