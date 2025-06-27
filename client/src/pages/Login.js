@@ -1,50 +1,28 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Checkbox from '@mui/material/Checkbox';
-import CssBaseline from '@mui/material/CssBaseline';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Divider from '@mui/material/Divider';
-import FormLabel from '@mui/material/FormLabel';
-import FormControl from '@mui/material/FormControl';
-import Link from '@mui/material/Link';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
-import Stack from '@mui/material/Stack';
-import MuiCard from '@mui/material/Card';
-import { styled } from '@mui/material/styles';
-import Cookies from 'js-cookie';
+import {
+  Box,
+  Button,
+  CssBaseline,
+  Divider,
+  FormControl,
+  FormLabel,
+  Link,
+  Stack,
+  TextField,
+  Typography,
+  Paper,
+  useTheme,
+} from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { getUser } from '../store/auth';
+import Cookies from 'js-cookie';
 import { useDispatch } from 'react-redux';
-const Card = styled(MuiCard)(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  alignSelf: 'center',
-  width: '100%',
-  padding: theme.spacing(4),
-  gap: theme.spacing(2),
-  margin: 'auto',
-  [theme.breakpoints.up('sm')]: {
-    maxWidth: '450px',
-  },
-  boxShadow:
-    'hsla(220, 30%, 5%, 0.05) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.05) 0px 15px 35px -5px',
-}));
-
-const SignInContainer = styled(Stack)(({ theme }) => ({
-  height: '100vh',
-  padding: theme.spacing(2),
-  [theme.breakpoints.up('sm')]: {
-    padding: theme.spacing(4),
-  },
-  background:
-    'radial-gradient(ellipse at 50% 50%, hsl(210, 100%, 97%), hsl(0, 0%, 100%))',
-}));
+import { getUser } from '../store/auth';
 
 export default function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const theme = useTheme();
+
   const [emailError, setEmailError] = React.useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = React.useState('');
   const [passwordError, setPasswordError] = React.useState(false);
@@ -59,18 +37,20 @@ export default function Login() {
       email: data.get('email'),
       password: data.get('password'),
     };
-    const res = await fetch(`${process.env.REACT_APP_API_URL}/auth/login`,{
-        method: 'POST',
-        body: JSON.stringify(form),
-        headers: {
-            'Content-Type': 'application/json',
-        },
+
+    const res = await fetch(`${process.env.REACT_APP_API_URL}/auth/login`, {
+      method: 'POST',
+      body: JSON.stringify(form),
+      headers: {
+        'Content-Type': 'application/json',
+      },
     });
-    const {token,userExists} = await res.json();
-    if(res.ok){
-        Cookies.set('token',token);  
-        dispatch(getUser(userExists));
-        navigate('/');
+
+    const { token, userExists } = await res.json();
+    if (res.ok) {
+      Cookies.set('token', token);
+      dispatch(getUser(userExists));
+      navigate('/');
     }
   };
 
@@ -102,68 +82,106 @@ export default function Login() {
 
   return (
     <>
-      <CssBaseline enableColorScheme />
-      <SignInContainer direction="column" justifyContent="center">
-        <Card variant="outlined">
+      <CssBaseline />
+      <Box
+        sx={{
+          background:
+            theme.palette.mode === 'dark'
+              ? 'radial-gradient(circle at top left, #0f0c29, #302b63, #24243e)'
+              : 'linear-gradient(to bottom right, #f9f9f9, #eaeaea)',
+          minHeight: '100vh',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          p: 2,
+        }}
+      >
+        <Paper
+          elevation={12}
+          sx={{
+            maxWidth: 420,
+            width: '100%',
+            p: 4,
+            borderRadius: 4,
+            background: theme.palette.background.paper,
+            boxShadow:
+              theme.palette.mode === 'dark'
+                ? '0 0 20px rgba(138,43,226,0.4)'
+                : '0 0 20px rgba(72,61,139,0.2)',
+          }}
+        >
           <Typography
-            component="h1"
             variant="h4"
-            sx={{ width: '100%', textAlign: 'center' }}
+            gutterBottom
+            sx={{
+              textAlign: 'center',
+              background: 'linear-gradient(45deg, #8e2de2, #4a00e0)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              fontWeight: 'bold',
+            }}
           >
-            Sign-in
+            Login
           </Typography>
-          <Box
-            component="form"
-            onSubmit={handleSubmit}
-            noValidate
-            sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
-          >
-            <FormControl>
-              <FormLabel htmlFor="email">Email</FormLabel>
+
+          <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2 }}>
+            <FormControl fullWidth sx={{ mb: 3 }}>
+              <FormLabel>Email</FormLabel>
               <TextField
+                id="email"
+                name="email"
+                type="email"
+                placeholder="you@example.com"
+                variant="filled"
                 error={emailError}
                 helperText={emailErrorMessage}
-                id="email"
-                type="email"
-                name="email"
-                placeholder="your@email.com"
-                required
                 fullWidth
-                variant="outlined"
               />
             </FormControl>
 
-            <FormControl>
-              <FormLabel htmlFor="password">Password</FormLabel>
+            <FormControl fullWidth sx={{ mb: 3 }}>
+              <FormLabel>Password</FormLabel>
               <TextField
+                id="password"
+                name="password"
+                type="password"
+                placeholder="••••••"
+                variant="filled"
                 error={passwordError}
                 helperText={passwordErrorMessage}
-                id="password"
-                type="password"
-                name="password"
-                placeholder="••••••"
-                required
                 fullWidth
-                variant="outlined"
               />
             </FormControl>
 
-
-            <Button type="submit" fullWidth variant="contained">
-              Sign-in
+            <Button
+              type="submit"
+              variant="contained"
+              fullWidth
+              sx={{
+                background: 'linear-gradient(45deg, #8e2de2, #4a00e0)',
+                color: '#fff',
+                fontWeight: 'bold',
+                transition: '0.3s',
+                '&:hover': {
+                  transform: 'scale(1.05)',
+                  background: 'linear-gradient(45deg, #7b1fa2, #512da8)',
+                },
+              }}
+            >
+              Sign In
             </Button>
           </Box>
 
-          <Divider>or</Divider>
+          <Divider sx={{ my: 3, borderColor: '#444' }} />
 
-          <Typography sx={{ textAlign: 'center' }}>
+          <Typography align="center" sx={{ color: 'text.secondary' }}>
             Don't have an account?{' '}
-            <Link href="/Register" variant="body2">
+            <Link href="/register" underline="hover" sx={{ color: '#8e2de2' }}>
               Register
             </Link>
           </Typography>
-        </Card>
-      </SignInContainer>
+        </Paper>
+      </Box>
     </>
   );
 }

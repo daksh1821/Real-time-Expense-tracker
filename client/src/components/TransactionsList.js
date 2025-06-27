@@ -59,11 +59,11 @@ export default function TransactionsList({
 
   return (
     <>
-      <Typography sx={{ marginTop: 10 }} variant="h6">
+      <Typography sx={{ marginTop: 10}} variant="h6" >
         List of Transactions
       </Typography>
       <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="transactions table">
+        <Table sx={{ minWidth: 550 }} aria-label="transactions table">
           <TableHead>
             <TableRow>
               <TableCell>Amount</TableCell>
@@ -89,17 +89,29 @@ export default function TransactionsList({
               <TableCell align="center">{formatDate(row.date)}</TableCell>
               <TableCell align="center">
                 <IconButton
-                  color="primary"
+                  color="info"
                   onClick={() => setEditTransaction(row)}
+                  sx={{
+                    '&:hover': {
+                      color: 'greenyellow',
+                      transform: 'scale(1.1)',
+                    },
+                  }}
                 >
                   <EditIcon />
                 </IconButton>
                 <IconButton
-                  color="warning"
-                  onClick={() => remove(row._id)}
-                >
-                  <DeleteIcon />
-                </IconButton>
+  color="warning"
+  onClick={() => remove(row._id)}
+  sx={{
+    '&:hover': {
+      color: '#f50057',
+      transform: 'scale(1.1)',
+    },
+  }}
+>
+  <DeleteIcon />
+</IconButton>
               </TableCell>
             </TableRow>
           ))

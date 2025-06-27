@@ -10,32 +10,15 @@ import {
   Stack,
   TextField,
   Typography,
-  Card as MuiCard,
+  Paper,
+  useTheme
 } from '@mui/material';
-import { styled } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 
-const SignUpContainer = styled(Stack)(() => ({
-  minHeight: '100vh',
-  alignItems: 'center',
-  justifyContent: 'center',
-  background: `linear-gradient(to bottom right, #f9f9f9, #eaeaea)`,
-  padding: '2rem',
-}));
-
-
-const Card = styled(MuiCard)(({ theme }) => ({
-  width: '100%',
-  maxWidth: 480,
-  padding: theme.spacing(4),
-  borderRadius: theme.spacing(2),
-  background: '#1a1a1a',
-  boxShadow: '0 0 20px rgba(0, 970, 255, 0.45)',
-  color: '#ffffff',
-}));
-
 export default function Register() {
+  const theme = useTheme();
   const navigate = useNavigate();
+
   const [emailError, setEmailError] = React.useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = React.useState('');
   const [passwordError, setPasswordError] = React.useState(false);
@@ -50,7 +33,6 @@ export default function Register() {
     const password = document.getElementById('password');
     const firstName = document.getElementById('firstName');
     const lastName = document.getElementById('lastName');
-
     let isValid = true;
 
     if (!email.value || !/\S+@\S+\.\S+/.test(email.value)) {
@@ -127,26 +109,56 @@ export default function Register() {
   return (
     <>
       <CssBaseline />
-      <SignUpContainer>
-        <Card>
+      <Box
+        sx={{
+          background:
+            theme.palette.mode === 'dark'
+              ? 'radial-gradient(circle at top left, #0f0c29, #302b63, #24243e)'
+              : 'linear-gradient(to bottom right, #f9f9f9, #eaeaea)',
+          minHeight: '100vh',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          p: 2,
+        }}
+      >
+        <Paper
+          elevation={12}
+          sx={{
+            maxWidth: 500,
+            width: '100%',
+            p: 4,
+            borderRadius: 4,
+            background: theme.palette.background.paper,
+            boxShadow:
+              theme.palette.mode === 'dark'
+                ? '0 0 20px rgba(138,43,226,0.4)'
+                : '0 0 20px rgba(72,61,139,0.3)',
+          }}
+        >
           <Typography
-            variant="h5"
-            align="center"
+            variant="h4"
             gutterBottom
-            sx={{ color: '#00bfff', fontWeight: '600' }}
+            sx={{
+              textAlign: 'center',
+              background: 'linear-gradient(45deg, #8e2de2, #4a00e0)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              fontWeight: 'bold',
+            }}
           >
-            Sign-up
+            Create Account
           </Typography>
 
           <Box
             component="form"
             onSubmit={handleSubmit}
             noValidate
-            sx={{ display: 'flex', flexDirection: 'column', gap: 3, mt: 2 }}
+            sx={{ mt: 3, display: 'flex', flexDirection: 'column', gap: 3 }}
           >
             <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
               <FormControl fullWidth>
-                <FormLabel sx={{ color: '#ccc' }} htmlFor="firstName">First Name</FormLabel>
+                <FormLabel>First Name</FormLabel>
                 <TextField
                   id="firstName"
                   name="firstName"
@@ -154,12 +166,12 @@ export default function Register() {
                   placeholder="Jon"
                   error={firstNameError}
                   helperText={firstNameErrorMessage}
-                  InputProps={{ sx: { color: '#fff' } }}
-                  sx={{ input: { backgroundColor: '#2a2a2a' } }}
+                  variant="filled"
                 />
               </FormControl>
+
               <FormControl fullWidth>
-                <FormLabel sx={{ color: '#ccc' }} htmlFor="lastName">Last Name</FormLabel>
+                <FormLabel>Last Name</FormLabel>
                 <TextField
                   id="lastName"
                   name="lastName"
@@ -167,14 +179,13 @@ export default function Register() {
                   placeholder="Snow"
                   error={lastNameError}
                   helperText={lastNameErrorMessage}
-                  InputProps={{ sx: { color: '#fff' } }}
-                  sx={{ input: { backgroundColor: '#2a2a2a' } }}
+                  variant="filled"
                 />
               </FormControl>
             </Stack>
 
-            <FormControl>
-              <FormLabel sx={{ color: '#ccc' }} htmlFor="email">Email</FormLabel>
+            <FormControl fullWidth>
+              <FormLabel>Email</FormLabel>
               <TextField
                 id="email"
                 name="email"
@@ -183,13 +194,12 @@ export default function Register() {
                 placeholder="you@example.com"
                 error={emailError}
                 helperText={emailErrorMessage}
-                InputProps={{ sx: { color: '#fff' } }}
-                sx={{ input: { backgroundColor: '#2a2a2a' } }}
+                variant="filled"
               />
             </FormControl>
 
-            <FormControl>
-              <FormLabel sx={{ color: '#ccc' }} htmlFor="password">Password</FormLabel>
+            <FormControl fullWidth>
+              <FormLabel>Password</FormLabel>
               <TextField
                 id="password"
                 name="password"
@@ -198,8 +208,7 @@ export default function Register() {
                 placeholder="••••••"
                 error={passwordError}
                 helperText={passwordErrorMessage}
-                InputProps={{ sx: { color: '#fff' } }}
-                sx={{ input: { backgroundColor: '#2a2a2a' } }}
+                variant="filled"
               />
             </FormControl>
 
@@ -209,28 +218,29 @@ export default function Register() {
               fullWidth
               sx={{
                 mt: 1,
-                backgroundColor: '#00bfff',
-                color: '#000',
-                fontWeight: '600',
+                background: 'linear-gradient(45deg, #8e2de2, #4a00e0)',
+                color: '#fff',
+                fontWeight: 'bold',
                 '&:hover': {
-                  backgroundColor: '#00a3cc',
+                  transform: 'scale(1.05)',
+                  background: 'linear-gradient(45deg, #7b1fa2, #512da8)',
                 },
               }}
             >
-              Create Account
+              Register
             </Button>
 
-            <Divider sx={{ borderColor: '#333', mt: 3 }} />
+            <Divider sx={{ my: 3, borderColor: '#444' }} />
 
-            <Typography sx={{ textAlign: 'center', color: '#aaa', mt: 2 }}>
+            <Typography align="center" sx={{ color: 'text.secondary' }}>
               Already have an account?{' '}
-              <Link href="/login" underline="hover" sx={{ color: '#00bfff' }}>
+              <Link href="/login" underline="hover" sx={{ color: '#8e2de2' }}>
                 Sign in
               </Link>
             </Typography>
           </Box>
-        </Card>
-      </SignUpContainer>
+        </Paper>
+      </Box>
     </>
   );
 }
