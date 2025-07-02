@@ -4,7 +4,7 @@ A full-stack real-time expense tracker built with the MERN stack (MongoDB, Expre
 
 ## 🚀 Live Demo
 
-- 🌐 **Frontend**: [https://expense-tracker-frontend-hw82.onrender.com](https://expense-tracker-frontend-hw82.onrender.com)
+- 🌐 Website: [https://expense-tracker-frontend-hw82.onrender.com](https://expense-tracker-frontend-hw82.onrender.com)
 
 ---
 
