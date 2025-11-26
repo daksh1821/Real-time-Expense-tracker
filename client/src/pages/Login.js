@@ -17,11 +17,26 @@ import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { useDispatch } from 'react-redux';
 import { getUser } from '../store/auth';
+import useSEO from '../utils/useSEO';
 
 export default function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const theme = useTheme();
+
+  // SEO Meta Tags
+  useSEO({
+    title: 'Login - Expenser | Expense Tracker',
+    description: 'Sign in to your Expenser account to track expenses, view analytics, and manage your budget. Secure authentication with JWT.',
+    keywords: 'login, sign in, expense tracker login, budget manager login, authentication',
+    ogTitle: 'Login - Expenser | Expense Tracker',
+    ogDescription: 'Sign in to your Expenser account to track expenses, view analytics, and manage your budget.',
+    ogImage: 'https://expense-tracker-frontend-hw82.onrender.com/og-image.jpg',
+    twitterTitle: 'Login - Expenser | Expense Tracker',
+    twitterDescription: 'Sign in to your Expenser account to track expenses and manage your budget.',
+    twitterImage: 'https://expense-tracker-frontend-hw82.onrender.com/twitter-card.jpg',
+    canonical: 'https://expense-tracker-frontend-hw82.onrender.com/Login'
+  });
 
   const [emailError, setEmailError] = React.useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = React.useState('');

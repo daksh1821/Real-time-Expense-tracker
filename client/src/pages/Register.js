@@ -14,10 +14,25 @@ import {
   useTheme
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import useSEO from '../utils/useSEO';
 
 export default function Register() {
   const theme = useTheme();
   const navigate = useNavigate();
+
+  // SEO Meta Tags
+  useSEO({
+    title: 'Register - Expenser | Create Your Free Account',
+    description: 'Create your free Expenser account to start tracking expenses, managing budgets, and viewing detailed analytics. Sign up now for secure expense management.',
+    keywords: 'register, sign up, create account, expense tracker registration, budget manager signup, free account',
+    ogTitle: 'Register - Expenser | Create Your Free Account',
+    ogDescription: 'Create your free Expenser account to start tracking expenses and managing budgets with beautiful analytics.',
+    ogImage: 'https://expense-tracker-frontend-hw82.onrender.com/og-image.jpg',
+    twitterTitle: 'Register - Expenser | Create Your Free Account',
+    twitterDescription: 'Start tracking expenses for free. Create your Expenser account today.',
+    twitterImage: 'https://expense-tracker-frontend-hw82.onrender.com/twitter-card.jpg',
+    canonical: 'https://expense-tracker-frontend-hw82.onrender.com/Register'
+  });
 
   const [emailError, setEmailError] = React.useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = React.useState('');
